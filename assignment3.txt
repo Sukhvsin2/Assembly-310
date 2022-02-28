@@ -1,0 +1,19 @@
+addi $t0,  $zero, 8000
+lw $t5, 196($t0)
+LoopStart:
+   lw $t3, 192($t0)
+   beq $t3, $zero, ExitLoop
+   beq $zero, $t3, Skip
+   lw $t2, 196($t0)
+   Skip:
+   slt $t3, $t4, $t2
+   bne $t3, $zero, True
+   add $t4, $t2, $zero
+   j LoopStart
+   True:
+      add $t4, $t5, $zero
+      j LoopStart
+   
+         
+ExitLoop:
+sw $t4, 200($t0)
