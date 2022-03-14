@@ -1,0 +1,112 @@
+# Mul of 3 till 12 aka. 3...36
+Main: 
+
+   jal Fun
+   j EndProg
+   
+Fun:
+   addi $t0, $zero, 1 #starting point
+   addi $t1, $zero, 13 # Max+1
+   addi $t3 , $zero, 3 # Multiple
+   #Loop
+   TopLoop:
+      beq $t0, $t1, Stop
+      mul $t2, $t0, $t3
+      sw $t2, 8200($zero)
+      addi $t0, $t0, 1
+      j TopLoop
+   Stop:
+   jr $ra
+
+
+
+EndProg:
+   
+----------------------------------------------------------------------------------------------
+
+# Multiples with args 
+Main: 
+   # Setup Args
+   addi $t6, $zero, 1 #min, Inclusive
+   addi $t5, $zero, 12 #max, Inclusive
+   addi $t3 , $zero, 5 # Multiple
+   jal Fun
+   j EndProg
+   
+Fun: # Takes in two args, in $t6, $t5
+   add $t0, $zero, $t6 #starting point
+   add $t1, $zero, $t5 # Max+1
+   addi $t1, $t1, 1 
+   
+   #Loop
+   TopLoop:
+      beq $t0, $t1, Stop
+      mul $t2, $t0, $t3
+      addi $t0, $t0, 1
+      sw $t2, 8200($zero)
+      j TopLoop
+   Stop:
+      
+   jr $ra
+
+
+
+EndProg:
+   
+----------------------------------------------------------------------------------------------
+
+# Squares with args 
+Main: 
+   # Setup Args
+   addi $t0, $zero, 4 # Value
+   addi $t1, $zero, 2 # Expo. Pow.
+   jal Fun
+   j EndProg
+   
+Fun: 
+   addi $t3, $zero, 1 
+   add $t2, $zero, $t0
+   #Loop
+   TopLoop:
+      beq $t3, $t1, Stop
+      mul $t2, $t2, $t0
+      addi $t3, $t3, 1
+      sw $t2, 8200($zero)
+      j TopLoop
+   Stop:
+      
+   jr $ra
+
+
+
+EndProg:
+   
+
+----------------------------------------------------------------------------------------------
+
+# Squares with args but returning back the variable 
+Main: 
+   # Setup Args
+   addi $t0, $zero, 4 # Value
+   addi $t1, $zero, 2 # Expo. Pow.
+   jal Fun
+   sw $t2, 8200($zero)
+   j EndProg
+   
+Fun: 
+   addi $t3, $zero, 1 
+   add $t2, $zero, $t0
+   #Loop
+   TopLoop:
+      beq $t3, $t1, Stop
+      mul $t2, $t2, $t0
+      addi $t3, $t3, 1
+      j TopLoop
+   Stop:
+      
+   jr $ra #(#t2 is the return Register)
+
+
+
+EndProg:
+   
