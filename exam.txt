@@ -1,0 +1,58 @@
+# Type your program here
+main:
+   addi $t0, $zero, 6000 # address for memory
+   addi $t5, $zero, 8000 # address for I/O
+   addi $t6, $zero, 0 # input tracker
+   jal loadSub
+   jal printForward
+   jal printBackward
+   jal sum
+   jal exit
+   
+loadSub:
+   lw $t1, 192($t5)
+   addi $t6, $t6, 1
+   beq $t1, $zero, Skip
+   lw $t1, 196($t5)
+   sw $t1, 0($t0)
+   addi $t0, $t0, -4
+   j loadSub
+   Skip:
+      jr $ra
+   
+printForward:
+   addi $t1, $zero, 6000
+   Loop:
+      beq $t1, $t0, Skip1
+      lw $t2, 0($t1)
+      sw $t2, 200($t5)
+      addi $t1, $t1, -4
+   j Loop
+   Skip1:
+      jr $ra
+      
+printBackward:
+   addi $t1, $zero, 6000
+   Loop1:
+      beq $t1, $t0, Skip2
+      addi $t0, $t0, 4
+      lw $t2, 0($t0)
+      sw $t2, 200($t5)
+   j Loop1
+   Skip2:
+      jr $ra
+
+sum:
+   addi $t3, $zero, 0
+   Loop3:
+      beq $zero, $t6, Skip3
+      lw $t2, 0($t1)
+      add $t3, $t3, $t2
+      addi $t6, $t6, -1
+      addi $t1, $t1, -4
+   j Loop3
+   Skip3:
+      sw $t3, 200($t5)
+      jr $ra
+
+exit:
